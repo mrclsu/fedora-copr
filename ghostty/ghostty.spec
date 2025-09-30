@@ -6,7 +6,7 @@ Summary:        Fast, feature-rich, and cross-platform terminal emulator that us
 
 License:        MIT
 URL:            https://github.com/ghostty-org/ghostty
-Source0:        https://github.com/ghostty-org/ghostty/archive/refs/tags/v%{version}.tar.gz
+Source0:        https://release.files.ghostty.org/%{version}/ghostty-%{version}.tar.gz
 
 
 ExclusiveArch: x86_64 aarch64
@@ -16,6 +16,7 @@ BuildRequires: fontconfig-devel
 BuildRequires: freetype-devel
 BuildRequires: glib2-devel
 BuildRequires: gtk4-devel
+BuildRequires: gtk4-layer-shell-devel
 BuildRequires: harfbuzz-devel
 BuildRequires: libadwaita-devel
 BuildRequires: libpng-devel
@@ -26,7 +27,7 @@ BuildRequires: pkg-config
 BuildRequires: wayland-protocols-devel
 BuildRequires: zig
 BuildRequires: zlib-ng-devel
-
+BuildRequires: blueprint-compiler
 
 Requires: fontconfig
 Requires: freetype
@@ -49,14 +50,18 @@ Requires: zlib-ng
 
 
 %build
-zig build \
+DESTDIR=%{buildroot} zig build \
     --summary all \
-    --prefix "%{buildroot}%{_prefix}" \
+    --prefix "%{_prefix}" \
     -Dversion-string=%{version}-%{release} \
     -Doptimize=ReleaseFast \
     -Dcpu=baseline \
     -Dpie=true \
     -Demit-docs
+
+%if 0%{?fedora} >= 42
+    rm -f "%{buildroot}%{_prefix}/share/terminfo/g/ghostty"
+%endif
 
 
 %files
@@ -85,13 +90,19 @@ zig build \
 %{_prefix}/share/nvim/site/ftdetect/ghostty.vim
 %{_prefix}/share/nvim/site/ftplugin/ghostty.vim
 %{_prefix}/share/nvim/site/syntax/ghostty.vim
-%{_prefix}/share/terminfo/g/ghostty
-%{_prefix}/share/terminfo/x/xterm-ghostty
 %{_prefix}/share/vim/vimfiles/compiler/ghostty.vim
 %{_prefix}/share/vim/vimfiles/ftdetect/ghostty.vim
 %{_prefix}/share/vim/vimfiles/ftplugin/ghostty.vim
 %{_prefix}/share/vim/vimfiles/syntax/ghostty.vim
 %{_prefix}/share/zsh/site-functions/_ghostty
+%{_prefix}/share/dbus-1/services/com.mitchellh.ghostty.service
+%{_prefix}/share/locale/*/LC_MESSAGES/com.mitchellh.ghostty.mo
+%{_prefix}/share/metainfo/com.mitchellh.ghostty.metainfo.xml
+%{_prefix}/share/systemd/user/app-com.mitchellh.ghostty.service
+%{_prefix}/share/terminfo/x/xterm-ghostty
+%if 0%{?fedora} < 42
+    %{_prefix}/share/terminfo/g/ghostty
+%endif
 
 
 %changelog

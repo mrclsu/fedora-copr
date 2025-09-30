@@ -1,4 +1,4 @@
-Name:           ghostty
+Name:           ghostty-tip
 Version:        tip
 Release:        1%{?dist}
 Summary:        Fast, feature-rich, and cross-platform terminal emulator that uses platform-native UI and GPU acceleration
