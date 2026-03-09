@@ -100,6 +100,23 @@ DESTDIR=%{buildroot} zig build \
 %{_prefix}/share/metainfo/com.mitchellh.ghostty.metainfo.xml
 %{_prefix}/share/systemd/user/app-com.mitchellh.ghostty.service
 %{_prefix}/share/terminfo/x/xterm-ghostty
+%{_prefix}/include/ghostty/vt.h
+%{_prefix}/include/ghostty/vt/allocator.h
+%{_prefix}/include/ghostty/vt/color.h
+%{_prefix}/include/ghostty/vt/key.h
+%{_prefix}/include/ghostty/vt/key/encoder.h
+%{_prefix}/include/ghostty/vt/key/event.h
+%{_prefix}/include/ghostty/vt/osc.h
+%{_prefix}/include/ghostty/vt/paste.h
+%{_prefix}/include/ghostty/vt/result.h
+%{_prefix}/include/ghostty/vt/sgr.h
+%{_prefix}/include/ghostty/vt/wasm.h
+%{_prefix}/lib/libghostty-vt.so
+%{_prefix}/lib/libghostty-vt.so.0
+%{_prefix}/lib/libghostty-vt.so.0.1.0
+%{_prefix}/share/pkgconfig/libghostty-vt.pc
+
+
 %if 0%{?fedora} < 42
     %{_prefix}/share/terminfo/g/ghostty
 %endif
